@@ -1,0 +1,65 @@
+<div>
+  <form #form="ngForm" class="form-row">
+    <div class="form-group">
+      <label for="userName">Name</label>
+      <input type="text" class="form-control" id="userName" name="userName" #userName="ngModel" [(ngModel)]="user.name" placeholder="Enter name" required>
+    </div>
+    <div *ngIf="!isCleared">
+      <div *ngIf="userName.touched && userName.errors?.required">Name is required.</div>
+    </div>
+    <div class="col">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="userEmail" name="userEmail" #userEmail="ngModel" [(ngModel)]="user.email" placeholder="Enter email" required>
+    </div>
+    <div>
+      <div *ngIf="userEmail.touched && userEmail.errors?.required">Email is required.</div>
+    </div>
+    <div class="col">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" #password="ngModel" [(ngModel)]="user.password" (keyup)="matchPassword()" placeholder="Enter password" required>
+    </div>
+    <div>
+      <div *ngIf="password.touched && password.errors?.required">Password is required.</div>
+    </div>
+    <div class="col">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel" [(ngModel)]="user.confirmPassword" placeholder="Enter confirm password" (keyup)="matchPassword()" required>
+    </div>
+    <div>
+      <div *ngIf="confirmPassword.touched && confirmPassword.errors?.required">Confirm password is required.</div>
+      <div *ngIf="user.password && confirmPassword.dirty && !confirmPassword.errors?.required && !isMatched">Confirm password doesn't match password.</div>
+    </div>
+    <div class="col">
+      <label for="hobby">Hobby</label>
+      <select class="form-control" id="selectedHobby" name="selectedHobby" #selectedHobby="ngModel" [(ngModel)]="user.hobby">
+        <option *ngFor="let hobbies of toArray(hobby)" [ngValue]="hobbies">{{hobby[hobbies]}}</option>
+      </select>
+    </div>
+  </form>
+  <div class="form-row">
+    <div class="col">
+      <label for="dob">Date of birth</label>
+      <input type="date" class="form-control" id="dob" name="dob" #dob="ngModel" [ngModel]="user.dateOfBirth | date: 'yyyy-MM-dd'" (ngModelChange)="user.dateOfBirth = $event" required>
+    </div>
+    <div>
+      <div *ngIf="dob.touched && dob.errors?.required">Date of birth is required.</div>
+    </div>
+    <div class="col">
+      <label for="genderType">Gender</label>
+      <mat-radio-group id="genderType" name="genderType" [(ngModel)]="user.gender">
+        <mat-radio-button [value]="gender.Male">Male</mat-radio-button>
+        <mat-radio-button [value]="gender.Female">Female</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col">
+      <label for="status">Status</label>
+      <mat-checkbox id="status" name="status" status="ngModel" [(ngModel)]="user.status">Active</mat-checkbox>
+    </div>
+  </div>
+  <button class="btn-primary" type="reset" (click)="clearInputs(form)">Clear</button>
+  <button class="btn-primary" type="submit" (click)="addEditUser(form)">Save</button>
+</div>
+<div>
+  <app-user-list [isSuccess]="isSuccess" (isFetched)="isUserFetched($event)"></app-user-list>
+</div>
+

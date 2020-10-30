@@ -1,0 +1,31 @@
+<div>
+  <div *ngIf="isUserAvailable">
+    <table>
+      <thead class="table">
+        <tr class="table-secondary">
+          <td>Action</td>
+          <td>Name</td>
+          <td>Email</td>
+          <td>Gender</td>
+          <td>DOB</td>
+          <td>Hobby</td>
+          <td>Status</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <td><button class="btn-primary" type="submit" (click)="getUserById(user.userId)">Edit</button> <button class="btn-primary" type="submit" (click)="deleteUser(user.userId)">Delete</button></td>
+          <td>{{user.name}}</td>
+          <td>{{user.email}}</td>
+          <td>{{gender[user.gender]}}</td>
+          <td>{{user.dateOfBirth | date: 'dd/MM/yyyy'}}</td>
+          <td>{{hobby[user.hobby]}}</td>
+          <td>{{user.status}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!isUserAvailable">
+    No users available.
+  </div>
+</div>
